@@ -16,6 +16,7 @@ namespace PlanningPoker.DataAccess
         {
             base.OnModelCreating(builder);
 
+            //configure identity entities
             builder.AddConfiguration<User, UserConfig>();
             builder.AddConfiguration<IdentityRole, IdentityRoleConfig>();
             builder.AddConfiguration<IdentityUserClaim<int>, IdentityUserClaimConfig>();
