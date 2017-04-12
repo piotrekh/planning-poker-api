@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PlanningPoker.DataAccess.Entities;
+using PlanningPoker.DataAccess.EntitiesConfig;
 using PlanningPoker.DataAccess.EntitiesConfig.Identity;
 using PlanningPoker.DataAccess.Extensions;
 
@@ -8,6 +9,8 @@ namespace PlanningPoker.DataAccess
 {
     public class PlanningPokerDbContext : IdentityDbContext<User, IdentityRole<int>, int>
     {
+        public DbSet<Session> Sessions { get; set; }
+
         public PlanningPokerDbContext(DbContextOptions<PlanningPokerDbContext> options) : base(options)
         {
         }
@@ -23,7 +26,13 @@ namespace PlanningPoker.DataAccess
             builder.AddConfiguration<IdentityUserLogin<int>, IdentityUserLoginConfig>();
             builder.AddConfiguration<IdentityRoleClaim<int>, IdentityRoleClaimConfig>();
             builder.AddConfiguration<IdentityUserRole<int>, IdentityUserRoleConfig>();
-            builder.AddConfiguration<IdentityUserToken<int>, IdentityUserTokenConfig>();            
+            builder.AddConfiguration<IdentityUserToken<int>, IdentityUserTokenConfig>();
+
+            //configure game-related entities
+            builder.AddConfiguration<Session, SessionConfig>();
+            builder.AddConfiguration<SessionPlayer, SessionPlayerConfig>();
+            builder.AddConfiguration<Game, GameConfig>();
+            builder.AddConfiguration<GameEstimate, GameEstimateConfig>();
         }
     }
 }
