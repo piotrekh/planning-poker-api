@@ -9,7 +9,11 @@ namespace PlanningPoker.DataAccess.EntitiesConfig.Identity
         public override void Configure(EntityTypeBuilder<IdentityUserLogin<int>> builder)
         {
             builder.ToTable("AspNetUserLogin", "dbo");
-            builder.Property(e => e.UserId).HasColumnName("AspNetUserId");
+
+            builder.HasKey(x => new { x.LoginProvider, x.ProviderKey });
+
+            builder.Property(x => x.UserId)
+                .HasColumnName("AspNetUserId");
         }
     }
 }

@@ -30,6 +30,8 @@ CREATE TABLE [dbo].[AspNetUser] (
     [SecurityStamp] nvarchar(max),
     [TwoFactorEnabled] bit NOT NULL,
     [UserName] nvarchar(256),
+	[FirstName] nvarchar(256) NOT NULL,
+	[LastName] nvarchar(256) NOT NULL,
     CONSTRAINT [PK_AspNetUser] PRIMARY KEY ([Id])
 );
 

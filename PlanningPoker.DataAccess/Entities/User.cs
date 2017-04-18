@@ -5,6 +5,11 @@ namespace PlanningPoker.DataAccess.Entities
 {
     public class User : IdentityUser<int>
     {
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+
         #region Navigation properties
 
         public ICollection<SessionPlayer> Sessions { get; set; }

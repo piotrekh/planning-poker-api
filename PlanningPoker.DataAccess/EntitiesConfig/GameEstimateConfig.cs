@@ -9,8 +9,16 @@ namespace PlanningPoker.DataAccess.EntitiesConfig
         public override void Configure(EntityTypeBuilder<GameEstimate> builder)
         {
             builder.ToTable("GameEstimate", "dbo");
-            builder.HasOne(x => x.Game).WithMany(x => x.Estimates).HasForeignKey(x => x.GameId);
-            builder.HasOne(x => x.User).WithMany(x => x.Estimates).HasForeignKey(x => x.UserId);
+
+            builder.HasKey(x => new { x.GameId, x.UserId });
+
+            builder.HasOne(x => x.Game)
+                   .WithMany(x => x.Estimates)
+                   .HasForeignKey(x => x.GameId);
+
+            builder.HasOne(x => x.User)
+                   .WithMany(x => x.Estimates)
+                   .HasForeignKey(x => x.UserId);
         }
     }
 }

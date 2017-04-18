@@ -1,14 +1,22 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using PlanningPoker.Domain.Constants;
+using PlanningPoker.Domain.Services;
+using PlanningPoker.Security.Attributes;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 
 namespace PlanningPoker.Api.Controllers
 {
     [Route("api/[controller]")]
     public class ValuesController : Controller
     {
+        private readonly IUserManagerService _userManagerService;
+
+        public ValuesController(IUserManagerService userManagerService)
+        {
+            _userManagerService = userManagerService;
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()

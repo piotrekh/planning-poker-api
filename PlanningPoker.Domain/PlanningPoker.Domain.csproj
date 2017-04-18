@@ -5,9 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="Services\" />
-    <Folder Include="Repositories\" />
+    <ProjectReference Include="..\PlanningPoker.DataAccess\PlanningPoker.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

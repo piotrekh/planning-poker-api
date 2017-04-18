@@ -9,8 +9,16 @@ namespace PlanningPoker.DataAccess.EntitiesConfig
         public override void Configure(EntityTypeBuilder<SessionPlayer> builder)
         {
             builder.ToTable("SessionPlayer", "dbo");
-            builder.HasOne(x => x.Session).WithMany(x => x.Players).HasForeignKey(x => x.SessionId);
-            builder.HasOne(x => x.User).WithMany(x => x.Sessions).HasForeignKey(x => x.UserId);
+
+            builder.HasKey(x => new { x.SessionId, x.UserId });
+
+            builder.HasOne(x => x.Session)
+                   .WithMany(x => x.Players)
+                   .HasForeignKey(x => x.SessionId);
+
+            builder.HasOne(x => x.User)
+                   .WithMany(x => x.Sessions)
+                   .HasForeignKey(x => x.UserId);
         }
     }
 }
