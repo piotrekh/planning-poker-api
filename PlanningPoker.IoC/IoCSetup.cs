@@ -29,6 +29,7 @@ namespace PlanningPoker.IoC
             
             builder.RegisterModule<ServicesModule>();
             builder.RegisterModule<RepositoriesModule>();
+            builder.RegisterModule<ProvidersModule>();
 
             builder.Populate(services);
 

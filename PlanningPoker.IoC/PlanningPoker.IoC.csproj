@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlanningPoker.DataAccess\PlanningPoker.DataAccess.csproj" />
+    <ProjectReference Include="..\PlanningPoker.Providers\PlanningPoker.Providers.csproj" />
     <ProjectReference Include="..\PlanningPoker.Repositories\PlanningPoker.Repositories.csproj" />
     <ProjectReference Include="..\PlanningPoker.Services\PlanningPoker.Services.csproj" />
   </ItemGroup>

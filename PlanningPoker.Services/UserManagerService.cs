@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using PlanningPoker.DataAccess;
-using PlanningPoker.DataAccess.Entities;
+﻿using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Models.Users;
+using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Domain.Services;
 using System.Threading.Tasks;
@@ -12,12 +11,12 @@ namespace PlanningPoker.Services
     public class UserManagerService : IUserManagerService
     {
         private readonly IUsersRepository _usersRepository;
-        private readonly PlanningPokerDbContext _dbContext;
+        private readonly ITransactionProvider _transactionProvider;
 
-        public UserManagerService(IUsersRepository usersRepository, PlanningPokerDbContext dbContext)
+        public UserManagerService(IUsersRepository usersRepository, ITransactionProvider transactionProvider)
         {
             _usersRepository = usersRepository;
-            _dbContext = dbContext;
+            _transactionProvider = transactionProvider;
         }
         
         public async Task<CreateUserResult> CreateUser(CreateUser data)
@@ -35,7 +34,7 @@ namespace PlanningPoker.Services
                 UserName = data.Email
             };
 
-            using (var transaction = _dbContext.Database.BeginTransaction())
+            using (var transaction = _transactionProvider.BeginTransaction())
             {
                 try
                 {
