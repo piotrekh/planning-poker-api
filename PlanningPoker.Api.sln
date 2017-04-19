@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.Security", "P
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.Providers", "PlanningPoker.Providers\PlanningPoker.Providers.csproj", "{AEBA41CB-58DC-44A1-9399-B466D3DCA39B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.UnitTests", "PlanningPoker.UnitTests\PlanningPoker.UnitTests.csproj", "{7FBB40ED-7100-48E0-AE9D-98E3B79FF3D6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.Tests.Common", "PlanningPoker.Tests.Common\PlanningPoker.Tests.Common.csproj", "{59EB3B98-204D-4349-A34A-06919D4E84F9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +75,14 @@ Global
 		{AEBA41CB-58DC-44A1-9399-B466D3DCA39B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEBA41CB-58DC-44A1-9399-B466D3DCA39B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEBA41CB-58DC-44A1-9399-B466D3DCA39B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FBB40ED-7100-48E0-AE9D-98E3B79FF3D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FBB40ED-7100-48E0-AE9D-98E3B79FF3D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FBB40ED-7100-48E0-AE9D-98E3B79FF3D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FBB40ED-7100-48E0-AE9D-98E3B79FF3D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59EB3B98-204D-4349-A34A-06919D4E84F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59EB3B98-204D-4349-A34A-06919D4E84F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59EB3B98-204D-4349-A34A-06919D4E84F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59EB3B98-204D-4349-A34A-06919D4E84F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -84,5 +96,7 @@ Global
 		{97CEBDB0-7994-47EF-8EBB-D6BD47D048AD} = {0E33DB25-E207-4DBE-9587-7A55F2295244}
 		{AA05B190-BE93-4A06-A811-C79933459037} = {0E33DB25-E207-4DBE-9587-7A55F2295244}
 		{AEBA41CB-58DC-44A1-9399-B466D3DCA39B} = {32D21700-0EBB-4F7C-92C7-834F14F3EB96}
+		{7FBB40ED-7100-48E0-AE9D-98E3B79FF3D6} = {44A903D6-7768-4827-9496-6426C0EC631D}
+		{59EB3B98-204D-4349-A34A-06919D4E84F9} = {44A903D6-7768-4827-9496-6426C0EC631D}
 	EndGlobalSection
 EndGlobal
