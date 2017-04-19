@@ -52,16 +52,19 @@ namespace PlanningPoker.Security
 
         private async Task GenerateToken(HttpContext context)
         {
+            //username is actually an email
             var username = context.Request.Form["username"];
             var password = context.Request.Form["password"];
 
-            var identity = await GetIdentity(username, password);
-            if (identity == null)
+            User user = await _authService.Login(username, password);
+            if (user == null)
             {
                 context.Response.StatusCode = 400;
                 await context.Response.WriteAsync("Invalid username or password.");
                 return;
             }
+
+            IList<Claim> userClaims = await _authService.GetClaims(user);
 
             var now = DateTime.UtcNow;
 
@@ -69,12 +72,15 @@ namespace PlanningPoker.Security
             // You can add other claims here, if you want:
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, username),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(JwtRegisteredClaimNames.Iat, new DateTimeOffset(now).ToUniversalTime().ToUnixTimeSeconds().ToString(), ClaimValueTypes.Integer64)
             };
             //add identity claims
-            claims.AddRange(identity.Claims);
+            claims.AddRange(userClaims);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
 
             // Create the JWT and write it to a string
             var jwt = new JwtSecurityToken(
@@ -84,7 +90,7 @@ namespace PlanningPoker.Security
                 notBefore: now,
                 expires: _options.Expiration == null ? (DateTime?)null : now.Add(_options.Expiration.GetValueOrDefault()),
                 signingCredentials: _options.SigningCredentials);
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
+            var encodedJwt = tokenHandler.WriteToken(jwt);
 
             var response = new
             {
@@ -95,16 +101,6 @@ namespace PlanningPoker.Security
             // Serialize and return the response
             context.Response.ContentType = "application/json";
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.None }));
-        }
-
-        private async Task<ClaimsIdentity> GetIdentity(string email, string password)
-        {
-            User user = await _authService.Login(email, password);
-            if (user == null)
-                return null;
-
-            IList<Claim> claims = await _authService.GetClaims(user);
-            return new ClaimsIdentity(new GenericIdentity(email, "Token"), claims);            
-        }
+        }        
     }
 }

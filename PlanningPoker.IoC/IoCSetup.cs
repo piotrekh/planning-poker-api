@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +31,8 @@ namespace PlanningPoker.IoC
             builder.RegisterModule<ServicesModule>();
             builder.RegisterModule<RepositoriesModule>();
             builder.RegisterModule<ProvidersModule>();
+
+            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().InstancePerLifetimeScope();
 
             builder.Populate(services);
 

@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using PlanningPoker.IoC.Extensions;
 using PlanningPoker.Repositories;
 using System.Reflection;
 
@@ -12,7 +13,8 @@ namespace PlanningPoker.IoC.DependencyInjection
 
             builder.RegisterAssemblyTypes(servicesAssembly)
                 .Where(x => x.Name.EndsWith("Repository"))
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .InstancePerAspNetCoreRequest();
         }
     }
 }

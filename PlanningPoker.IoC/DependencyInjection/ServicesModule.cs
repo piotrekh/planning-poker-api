@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using PlanningPoker.Services;
 using System.Reflection;
+using PlanningPoker.IoC.Extensions;
 
 namespace PlanningPoker.IoC.DependencyInjection
 {
@@ -12,7 +13,8 @@ namespace PlanningPoker.IoC.DependencyInjection
 
             builder.RegisterAssemblyTypes(servicesAssembly)
                 .Where(x => x.Name.EndsWith("Service"))
-                .AsImplementedInterfaces();
+                .AsImplementedInterfaces()
+                .InstancePerAspNetCoreRequest();
         }
     }
 }
