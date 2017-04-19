@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using PlanningPoker.DataAccess;
 using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.IoC.DependencyInjection;
@@ -26,13 +27,15 @@ namespace PlanningPoker.IoC
                 .AddEntityFrameworkStores<PlanningPokerDbContext, int>()
                 .AddDefaultTokenProviders();
 
+            //IHttpContextAccessor may already be registered by AspNet.Identity
+            //https://github.com/aspnet/Hosting/issues/793
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             var builder = new ContainerBuilder();
             
             builder.RegisterModule<ServicesModule>();
             builder.RegisterModule<RepositoriesModule>();
-            builder.RegisterModule<ProvidersModule>();
-
-            builder.RegisterType<HttpContextAccessor>().As<IHttpContextAccessor>().InstancePerLifetimeScope();
+            builder.RegisterModule<ProvidersModule>();            
 
             builder.Populate(services);
 
