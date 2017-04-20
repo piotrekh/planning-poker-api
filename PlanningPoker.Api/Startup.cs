@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using PlanningPoker.IoC;
 using PlanningPoker.Security.DependencyInjection;
+using System;
 
 namespace PlanningPoker.Api
 {
@@ -31,8 +28,9 @@ namespace PlanningPoker.Api
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public IServiceProvider ConfigureServices(IServiceCollection services)
-        {                      
+        {
             // Add framework services.
+            services.AddCors();
             services.AddMvc();
             services.AddSecurity(Configuration);
             
@@ -52,6 +50,10 @@ namespace PlanningPoker.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                                          .AllowAnyMethod()
+                                          .AllowAnyHeader()
+                                          .AllowCredentials());
             app.UseSecurity();
             app.UseMvc();            
 
