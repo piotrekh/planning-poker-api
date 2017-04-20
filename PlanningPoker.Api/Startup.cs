@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PlanningPoker.Api.Filters;
 using PlanningPoker.IoC;
 using PlanningPoker.Security.DependencyInjection;
 using System;
@@ -31,7 +32,10 @@ namespace PlanningPoker.Api
         {
             // Add framework services.
             services.AddCors();
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new ExceptionResultFilter());
+            });
             services.AddSecurity(Configuration);
             
             IoC.RegisterServices(services, Configuration);

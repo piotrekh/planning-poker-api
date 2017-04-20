@@ -51,14 +51,14 @@ namespace PlanningPoker.UnitTests.Services
 
             #region Act
 
-            CreateUserResult result = await userManagerService.CreateUser(userToAdd);
+            var exception = await Record.ExceptionAsync(() => userManagerService.CreateUser(userToAdd));
 
             #endregion
 
             #region Assert
 
-            //assert the result
-            Assert.Equal(CreateUserResult.Success, result);
+            //verify that no exception was thrown
+            Assert.Null(exception);
 
             //verify that methods have been called with correct parameters and correct number of times
             usersRepositoryMock.Verify(x => x.FindByEmail(userToAdd.Email), Times.Once);

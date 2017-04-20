@@ -1,8 +1,7 @@
 ﻿namespace PlanningPoker.Domain.Enums
 {
-    public enum CreateUserResult
-    {
-        Success,
+    public enum CreateUserExceptionReason
+    {        
         UserAlreadyExists,
         UnspecifiedError
     }

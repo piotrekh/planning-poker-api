@@ -25,16 +25,9 @@ namespace PlanningPoker.Api.Controllers
         
         [HttpPost]
         [ClaimAuthorize(Claims.CanManageUsers)]
-        public async Task<IActionResult> Post([FromBody] CreateUser data)
+        public async Task Post([FromBody] CreateUser data)
         {
-            var result = await _userManagerService.CreateUser(data);
-            switch(result)
-            {
-                case Domain.Enums.CreateUserResult.Success:
-                    return Ok();
-                default:
-                    return BadRequest(result.ToString());
-            }
+            await _userManagerService.CreateUser(data);
         }        
     }
 }

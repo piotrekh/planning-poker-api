@@ -1,5 +1,6 @@
 ﻿using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.Domain.Enums;
+using PlanningPoker.Domain.Exceptions;
 using PlanningPoker.Domain.Models.Users;
 using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
@@ -19,12 +20,12 @@ namespace PlanningPoker.Services
             _transactionProvider = transactionProvider;
         }
         
-        public async Task<CreateUserResult> CreateUser(CreateUser data)
+        public async Task CreateUser(CreateUser data)
         {
             //check if a user with specified email already exists
             User existingUser = await _usersRepository.FindByEmail(data.Email);
             if (existingUser != null)
-                return CreateUserResult.UserAlreadyExists;
+                throw new ApplicationException(CreateUserExceptionReason.UserAlreadyExists.ToString());                
 
             User user = new User()
             {
@@ -39,24 +40,26 @@ namespace PlanningPoker.Services
                 try
                 {
                     //create user and add them to the specified role
-                    var result = await _usersRepository.Create(user, data.Password);
+                    bool createResult = await _usersRepository.Create(user, data.Password);
 
-                    if (result)
+                    if (createResult)
                     {
-                        await _usersRepository.AddToRole(user, data.Role);
-                        transaction.Commit();
-                        return CreateUserResult.Success;
+                        bool addToRoleResult = await _usersRepository.AddToRole(user, data.Role);
+
+                        if (addToRoleResult)
+                            transaction.Commit();
+                        else
+                            throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError.ToString());
                     }
                     else
                     {
-                        transaction.Rollback();
-                        return CreateUserResult.UnspecifiedError;
+                        throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError.ToString());
                     }
                 }
                 catch
                 {
                     transaction.Rollback();
-                    return CreateUserResult.UnspecifiedError;
+                    throw;
                 }
             }
         }
