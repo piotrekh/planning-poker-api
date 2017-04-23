@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PlanningPoker.Domain.Models.Users;
-using PlanningPoker.Domain.Services;
-using System.Net;
-using PlanningPoker.Security.Attributes;
 using PlanningPoker.Domain.Constants;
 using PlanningPoker.Domain.Models.Sessions;
+using PlanningPoker.Domain.Models.Users;
 using PlanningPoker.Domain.Providers.Context;
+using PlanningPoker.Domain.Services;
+using PlanningPoker.Security.Attributes;
+using System.Collections.Generic;
+using System.Net;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -40,8 +39,8 @@ namespace PlanningPoker.Api.Controllers
         }        
 
         [HttpGet("{userId}/Sessions")]
-        [ProducesResponseType(typeof(List<SessionWithGames>), (int)HttpStatusCode.OK)]
-        [ClaimAuthorize]
+        [ProducesResponseType(typeof(List<SessionWithGames>), (int)HttpStatusCode.OK)]  
+        [Authorize]
         public IActionResult GetUserSessions([FromRoute] int userId)
         {
             //in current version of api, the user calling this method

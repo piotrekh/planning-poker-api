@@ -9,7 +9,7 @@ namespace PlanningPoker.Security.Filters
     public class ClaimAuthorizeFilter : IAsyncActionFilter
     {
         private readonly Claim _claim;
-
+        
         public ClaimAuthorizeFilter(Claim claim)
         {
             _claim = claim;
@@ -20,10 +20,6 @@ namespace PlanningPoker.Security.Filters
             if (!context.HttpContext.User.Identity.IsAuthenticated)
             {
                 context.Result = new UnauthorizedResult();
-            }
-            else if (_claim == null)
-            {
-                await next();
             }
             else
             {

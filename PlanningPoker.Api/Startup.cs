@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json.Converters;
 using PlanningPoker.Api.Filters;
 using PlanningPoker.IoC;
 using PlanningPoker.Security.DependencyInjection;
@@ -35,6 +36,11 @@ namespace PlanningPoker.Api
             services.AddMvc(options =>
             {
                 options.Filters.Add(new ExceptionResultFilter());
+            })
+            .AddJsonOptions(options =>
+            {
+                //convert all enums in models to strings
+                options.SerializerSettings.Converters.Add(new StringEnumConverter(false));
             });
             services.AddSecurity(Configuration);
             
