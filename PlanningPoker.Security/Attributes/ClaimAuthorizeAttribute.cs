@@ -6,9 +6,14 @@ namespace PlanningPoker.Security.Attributes
 {
     public class ClaimAuthorizeAttribute : TypeFilterAttribute
     {
-        public ClaimAuthorizeAttribute(string claim) : base(typeof(ClaimAuthorizeFilter))
+        public ClaimAuthorizeAttribute(string claim = null) : base(typeof(ClaimAuthorizeFilter))
         {
-            Arguments = new object[] { new Claim(claim, "true") };
+            Claim c = null;
+
+            if (!string.IsNullOrEmpty(claim))
+                c = new Claim(claim, "true");
+
+            Arguments = new object[] { c };
         }
     }
 }

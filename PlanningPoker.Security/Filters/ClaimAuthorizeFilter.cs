@@ -8,7 +8,7 @@ namespace PlanningPoker.Security.Filters
 {
     public class ClaimAuthorizeFilter : IAsyncActionFilter
     {
-        readonly Claim _claim;
+        private readonly Claim _claim;
 
         public ClaimAuthorizeFilter(Claim claim)
         {
@@ -17,14 +17,25 @@ namespace PlanningPoker.Security.Filters
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
-            var hasClaim = context.HttpContext.User.Claims.Any(c => c.Type == _claim.Type && c.Value == _claim.Value);
-            if (!hasClaim)
+            if (!context.HttpContext.User.Identity.IsAuthenticated)
             {
                 context.Result = new UnauthorizedResult();
             }
-            else
+            else if (_claim == null)
             {
                 await next();
+            }
+            else
+            {
+                var hasClaim = context.HttpContext.User.Claims.Any(c => c.Type == _claim.Type && c.Value == _claim.Value);
+                if (!hasClaim)
+                {
+                    context.Result = new UnauthorizedResult();
+                }
+                else
+                {
+                    await next();
+                }
             }
         }
     }
