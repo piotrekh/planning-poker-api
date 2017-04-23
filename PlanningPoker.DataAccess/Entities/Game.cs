@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace PlanningPoker.DataAccess.Entities
 {
@@ -12,9 +13,9 @@ namespace PlanningPoker.DataAccess.Entities
 
         public string ExternalTaskUrl { get; set; }
 
-        public int FinalEstimate { get; set; }
+        public int? FinalEstimate { get; set; }
 
-        public int DateCreated { get; set; }
+        public DateTime DateCreated { get; set; }
 
 
         #region Navigation properties

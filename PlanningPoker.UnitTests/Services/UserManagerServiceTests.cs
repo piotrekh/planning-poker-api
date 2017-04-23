@@ -1,7 +1,6 @@
 ﻿using Moq;
 using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.Domain.Constants;
-using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Models.Users;
 using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
