@@ -4,9 +4,9 @@ namespace PlanningPoker.Domain.Exceptions
 {
     public class ApplicationException : Exception
     {
-        public string Reason { get; set; }
+        public Enum Reason { get; set; }
 
-        public ApplicationException(string reason)
+        public ApplicationException(Enum reason)
         {
             Reason = reason;
         }

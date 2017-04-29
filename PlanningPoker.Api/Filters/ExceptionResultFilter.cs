@@ -12,7 +12,7 @@ namespace PlanningPoker.Api.Filters
             if (context.Exception is ApplicationException)
             {
                 var exception = context.Exception as ApplicationException;
-                var result = new ApplicationExceptionResult(exception.Reason);
+                var result = new ApplicationExceptionResult(exception.Reason.ToString());
 
                 context.Result = new BadRequestObjectResult(result);
             }

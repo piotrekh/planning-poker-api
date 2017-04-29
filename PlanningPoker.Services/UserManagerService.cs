@@ -25,7 +25,7 @@ namespace PlanningPoker.Services
             //check if a user with specified email already exists
             User existingUser = await _usersRepository.FindByEmail(data.Email);
             if (existingUser != null)
-                throw new ApplicationException(CreateUserExceptionReason.UserAlreadyExists.ToString());                
+                throw new ApplicationException(CreateUserExceptionReason.UserAlreadyExists);                
 
             User user = new User()
             {
@@ -49,11 +49,11 @@ namespace PlanningPoker.Services
                         if (addToRoleResult)
                             transaction.Commit();
                         else
-                            throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError.ToString());
+                            throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError);
                     }
                     else
                     {
-                        throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError.ToString());
+                        throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError);
                     }
                 }
                 catch
