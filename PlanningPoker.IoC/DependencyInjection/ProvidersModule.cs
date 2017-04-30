@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using PlanningPoker.IoC.Extensions;
-using PlanningPoker.Providers.Transactions;
+using PlanningPoker.Providers.Context;
 using System.Reflection;
 
 namespace PlanningPoker.IoC.DependencyInjection
@@ -9,7 +9,7 @@ namespace PlanningPoker.IoC.DependencyInjection
     {
         protected override void Load(ContainerBuilder builder)
         {
-            Assembly servicesAssembly = typeof(TransactionProvider).GetTypeInfo().Assembly;
+            Assembly servicesAssembly = typeof(UserContextProvider).GetTypeInfo().Assembly;
 
             builder.RegisterAssemblyTypes(servicesAssembly)
                 .Where(x => x.Name.EndsWith("Provider"))

@@ -1,24 +1,25 @@
-﻿using PlanningPoker.Domain.Models.Sessions;
-using PlanningPoker.Domain.Providers.Transactions;
+﻿using PlanningPoker.DataAccess.Entities;
+using PlanningPoker.Domain.Models;
+using PlanningPoker.Domain.Models.Sessions;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Domain.Services;
+using PlanningPoker.UnitOfWork.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using PlanningPoker.DataAccess.Entities;
-using PlanningPoker.Domain.Models;
 
 namespace PlanningPoker.Services
 {
     public class SessionsService : ISessionsService
     {
         private readonly ISessionsRepository _sessionsRepository;
-        private readonly ITransactionProvider _transactionProvider;
+        private readonly IUnitOfWork _uow;
 
-        public SessionsService(ISessionsRepository sessionsRepository, ITransactionProvider transactionProvider)
+        public SessionsService(ISessionsRepository sessionsRepository,
+                               IUnitOfWork uow)
         {
             _sessionsRepository = sessionsRepository;
-            _transactionProvider = transactionProvider;
+            _uow = uow;
         }
 
         public void CreateSession(int userId, CreateSession session)
@@ -43,7 +44,7 @@ namespace PlanningPoker.Services
 
             _sessionsRepository.Create(sessionEntity);
 
-            _transactionProvider.SaveChanges();
+            _uow.SaveChanges();
         }
 
         public List<SessionWithGames> GetUserSessions(int userId)

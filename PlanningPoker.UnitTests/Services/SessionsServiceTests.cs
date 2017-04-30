@@ -2,10 +2,10 @@
 using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Models.Sessions;
-using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Services;
-using PlanningPoker.Tests.Common.Stubs.Providers.Transactions;
+using PlanningPoker.Tests.Common.Stubs.UnitOfWork;
+using PlanningPoker.UnitOfWork.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +15,11 @@ namespace PlanningPoker.UnitTests.Services
 {
     public class SessionsServiceTests
     {
-        private ITransactionProvider _transactionProvider;
+        private IUnitOfWork _uow;
 
         public SessionsServiceTests()
         {
-            _transactionProvider = new ITransactionProviderStub();
+            _uow = new IUnitOfWorkStub();
         }
 
         [Fact]
@@ -41,7 +41,7 @@ namespace PlanningPoker.UnitTests.Services
             sessionsRepositoryMock.Setup(x => x.Create(It.IsAny<Session>()))
                                   .Callback<Session>(session => addedSessionEntity = session);
 
-            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _transactionProvider);
+            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _uow);
 
             #endregion
 
@@ -97,7 +97,7 @@ namespace PlanningPoker.UnitTests.Services
             sessionsRepositoryMock.Setup(x => x.GetUserSessions(It.IsAny<int>()))
                                   .Returns(new List<Session>() { sessionEntity });
 
-            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _transactionProvider);
+            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _uow);
 
             #endregion
 
@@ -143,7 +143,7 @@ namespace PlanningPoker.UnitTests.Services
             sessionsRepositoryMock.Setup(x => x.GetUserSessions(It.IsAny<int>()))
                                   .Returns(new List<Session>() { sessionEntity });
 
-            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _transactionProvider);
+            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _uow);
 
             #endregion
 

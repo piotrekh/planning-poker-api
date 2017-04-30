@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlanningPoker.Domain\PlanningPoker.Domain.csproj" />
+    <ProjectReference Include="..\PlanningPoker.UnitOfWork.Abstractions\PlanningPoker.UnitOfWork.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

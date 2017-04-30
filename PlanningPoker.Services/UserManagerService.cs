@@ -2,9 +2,9 @@
 using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Exceptions;
 using PlanningPoker.Domain.Models.Users;
-using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Domain.Services;
+using PlanningPoker.UnitOfWork.Abstractions;
 using System.Threading.Tasks;
 
 namespace PlanningPoker.Services
@@ -12,20 +12,21 @@ namespace PlanningPoker.Services
     public class UserManagerService : IUserManagerService
     {
         private readonly IUsersRepository _usersRepository;
-        private readonly ITransactionProvider _transactionProvider;
+        private readonly IUnitOfWork _uow;
 
-        public UserManagerService(IUsersRepository usersRepository, ITransactionProvider transactionProvider)
+        public UserManagerService(IUsersRepository usersRepository,
+                                  IUnitOfWork uow)
         {
             _usersRepository = usersRepository;
-            _transactionProvider = transactionProvider;
+            _uow = uow;
         }
-        
+
         public async Task CreateUser(CreateUser data)
         {
             //check if a user with specified email already exists
             User existingUser = await _usersRepository.FindByEmail(data.Email);
             if (existingUser != null)
-                throw new ApplicationException(CreateUserExceptionReason.UserAlreadyExists);                
+                throw new ApplicationException(CreateUserExceptionReason.UserAlreadyExists);
 
             User user = new User()
             {
@@ -35,33 +36,24 @@ namespace PlanningPoker.Services
                 UserName = data.Email
             };
 
-            using (var transaction = _transactionProvider.BeginTransaction())
+            _uow.BeginTransactionInstantly();
+
+            //create user and add them to the specified role
+            bool createResult = await _usersRepository.Create(user, data.Password);
+
+            if (createResult)
             {
-                try
-                {
-                    //create user and add them to the specified role
-                    bool createResult = await _usersRepository.Create(user, data.Password);
+                bool addToRoleResult = await _usersRepository.AddToRole(user, data.Role);
 
-                    if (createResult)
-                    {
-                        bool addToRoleResult = await _usersRepository.AddToRole(user, data.Role);
-
-                        if (addToRoleResult)
-                            transaction.Commit();
-                        else
-                            throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError);
-                    }
-                    else
-                    {
-                        throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError);
-                    }
-                }
-                catch
-                {
-                    transaction.Rollback();
-                    throw;
-                }
+                if (!addToRoleResult)
+                    throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError);
             }
+            else
+            {
+                throw new ApplicationException(CreateUserExceptionReason.UnspecifiedError);
+            }
+
         }
     }
 }
+

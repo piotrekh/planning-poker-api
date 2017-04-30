@@ -1,21 +1,23 @@
 ﻿using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Exceptions;
-using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
+using PlanningPoker.Domain.Services;
+using PlanningPoker.UnitOfWork.Abstractions;
 using System;
 
-namespace PlanningPoker.Domain.Services
+namespace PlanningPoker.Services
 {
     public class GamesService : IGamesService
     {
         private readonly IGamesRepository _gamesRepository;
-        private readonly ITransactionProvider _transactionProvider;
+        private readonly IUnitOfWork _uow;
 
-        public GamesService(IGamesRepository gamesRepository, ITransactionProvider transactionProvider)
+        public GamesService(IGamesRepository gamesRepository,
+                            IUnitOfWork uow)
         {
             _gamesRepository = gamesRepository;
-            _transactionProvider = transactionProvider;
+            _uow = uow;
         }
 
         public int BeginGame(int sessionId)
@@ -30,7 +32,7 @@ namespace PlanningPoker.Domain.Services
             };
 
             _gamesRepository.Create(game);
-            _transactionProvider.SaveChanges();
+            _uow.SaveChanges();
 
             return game.Id;
         }

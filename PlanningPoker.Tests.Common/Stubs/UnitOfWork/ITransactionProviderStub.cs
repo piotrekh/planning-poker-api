@@ -1,6 +1,6 @@
-﻿using PlanningPoker.Domain.Providers.Transactions;
+﻿using PlanningPoker.UnitOfWork.Abstractions;
 
-namespace PlanningPoker.Tests.Common.Stubs.Providers.Transactions
+namespace PlanningPoker.Tests.Common.Stubs.UnitOfWork
 {
     public class ITransactionProviderStub : ITransactionProvider
     {

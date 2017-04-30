@@ -2,10 +2,10 @@
 using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.Domain.Constants;
 using PlanningPoker.Domain.Models.Users;
-using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Services;
-using PlanningPoker.Tests.Common.Stubs.Providers.Transactions;
+using PlanningPoker.Tests.Common.Stubs.UnitOfWork;
+using PlanningPoker.UnitOfWork.Abstractions;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -13,11 +13,11 @@ namespace PlanningPoker.UnitTests.Services
 {
     public class UserManagerServiceTests
     {
-        private ITransactionProvider _transactionProvider;
+        private IUnitOfWork _uow;
 
         public UserManagerServiceTests()
         {
-            _transactionProvider = new ITransactionProviderStub();
+            _uow = new IUnitOfWorkStub();
         }
 
         [Fact]
@@ -44,7 +44,7 @@ namespace PlanningPoker.UnitTests.Services
             usersRepositoryMock.Setup(x => x.AddToRole(It.IsAny<User>(), It.IsAny<string>()))
                                .ReturnsAsync(true);
 
-            UserManagerService userManagerService = new UserManagerService(usersRepositoryMock.Object, _transactionProvider);                      
+            UserManagerService userManagerService = new UserManagerService(usersRepositoryMock.Object, _uow);                      
 
             #endregion
 

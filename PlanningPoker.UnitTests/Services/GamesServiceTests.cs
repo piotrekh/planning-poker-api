@@ -1,20 +1,20 @@
 ﻿using Moq;
 using PlanningPoker.DataAccess.Entities;
-using PlanningPoker.Domain.Providers.Transactions;
 using PlanningPoker.Domain.Repositories;
-using PlanningPoker.Domain.Services;
-using PlanningPoker.Tests.Common.Stubs.Providers.Transactions;
+using PlanningPoker.Services;
+using PlanningPoker.Tests.Common.Stubs.UnitOfWork;
+using PlanningPoker.UnitOfWork.Abstractions;
 using Xunit;
 
 namespace PlanningPoker.UnitTests.Services
 {
     public class GamesServiceTests
     {
-        private ITransactionProvider _transactionProvider;
+        private IUnitOfWork _uow;
 
         public GamesServiceTests()
         {
-            _transactionProvider = new ITransactionProviderStub();
+            _uow = new IUnitOfWorkStub();
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace PlanningPoker.UnitTests.Services
             gamesRepositoryMock.Setup(x => x.Create(It.IsAny<Game>()))
                 .Callback<Game>(x => x.Id = expectedGameId);
 
-            GamesService gamesService = new GamesService(gamesRepositoryMock.Object, _transactionProvider);
+            GamesService gamesService = new GamesService(gamesRepositoryMock.Object, _uow);
 
             #endregion
 
