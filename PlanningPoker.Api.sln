@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.Api", "PlanningPoker.Api\PlanningPoker.Api.csproj", "{A510FD99-1643-4990-8CC1-1DB890B58095}"
 EndProject
@@ -34,6 +34,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.Tests.Common", "PlanningPoker.Tests.Common\PlanningPoker.Tests.Common.csproj", "{59EB3B98-204D-4349-A34A-06919D4E84F9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.TestData", "PlanningPoker.TestData\PlanningPoker.TestData.csproj", "{FB699C9B-635F-457D-9340-BBF22D13234D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.UnitOfWork.Abstractions", "PlanningPoker.UnitOfWork.Abstractions\PlanningPoker.UnitOfWork.Abstractions.csproj", "{CBDDEA99-227F-4BF8-AA55-6680F1B4AE08}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitOfWork", "UnitOfWork", "{E67CD4B7-208E-4124-A0EE-F8F117E0C3F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.UnitOfWork", "PlanningPoker.UnitOfWork\PlanningPoker.UnitOfWork.csproj", "{98C3EDF2-5CCB-457B-A708-CA0FDE3EB13B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlanningPoker.UnitOfWork.Mvc", "PlanningPoker.UnitOfWork.Mvc\PlanningPoker.UnitOfWork.Mvc.csproj", "{344AF7E4-E1B5-4D88-A001-67E368FD7048}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -89,6 +97,18 @@ Global
 		{FB699C9B-635F-457D-9340-BBF22D13234D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB699C9B-635F-457D-9340-BBF22D13234D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB699C9B-635F-457D-9340-BBF22D13234D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CBDDEA99-227F-4BF8-AA55-6680F1B4AE08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CBDDEA99-227F-4BF8-AA55-6680F1B4AE08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CBDDEA99-227F-4BF8-AA55-6680F1B4AE08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CBDDEA99-227F-4BF8-AA55-6680F1B4AE08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98C3EDF2-5CCB-457B-A708-CA0FDE3EB13B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98C3EDF2-5CCB-457B-A708-CA0FDE3EB13B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98C3EDF2-5CCB-457B-A708-CA0FDE3EB13B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98C3EDF2-5CCB-457B-A708-CA0FDE3EB13B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{344AF7E4-E1B5-4D88-A001-67E368FD7048}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{344AF7E4-E1B5-4D88-A001-67E368FD7048}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{344AF7E4-E1B5-4D88-A001-67E368FD7048}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{344AF7E4-E1B5-4D88-A001-67E368FD7048}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -105,5 +125,9 @@ Global
 		{7FBB40ED-7100-48E0-AE9D-98E3B79FF3D6} = {44A903D6-7768-4827-9496-6426C0EC631D}
 		{59EB3B98-204D-4349-A34A-06919D4E84F9} = {44A903D6-7768-4827-9496-6426C0EC631D}
 		{FB699C9B-635F-457D-9340-BBF22D13234D} = {003D3E2E-3558-405E-9DBE-C2A05F02B1C5}
+		{CBDDEA99-227F-4BF8-AA55-6680F1B4AE08} = {E67CD4B7-208E-4124-A0EE-F8F117E0C3F7}
+		{E67CD4B7-208E-4124-A0EE-F8F117E0C3F7} = {0E33DB25-E207-4DBE-9587-7A55F2295244}
+		{98C3EDF2-5CCB-457B-A708-CA0FDE3EB13B} = {E67CD4B7-208E-4124-A0EE-F8F117E0C3F7}
+		{344AF7E4-E1B5-4D88-A001-67E368FD7048} = {E67CD4B7-208E-4124-A0EE-F8F117E0C3F7}
 	EndGlobalSection
 EndGlobal

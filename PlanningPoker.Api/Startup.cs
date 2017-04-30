@@ -7,6 +7,7 @@ using Newtonsoft.Json.Converters;
 using PlanningPoker.Api.Filters;
 using PlanningPoker.IoC;
 using PlanningPoker.Security.DependencyInjection;
+using PlanningPoker.UnitOfWork.Mvc.Filters;
 using System;
 
 namespace PlanningPoker.Api
@@ -35,6 +36,7 @@ namespace PlanningPoker.Api
             services.AddCors();
             services.AddMvc(options =>
             {
+                options.Filters.Add(typeof(UnitOfWorkTransactionFilter));
                 options.Filters.Add(new ExceptionResultFilter());
             })
             .AddJsonOptions(options =>

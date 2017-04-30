@@ -21,6 +21,7 @@
     <ProjectReference Include="..\PlanningPoker.Providers\PlanningPoker.Providers.csproj" />
     <ProjectReference Include="..\PlanningPoker.Repositories\PlanningPoker.Repositories.csproj" />
     <ProjectReference Include="..\PlanningPoker.Services\PlanningPoker.Services.csproj" />
+    <ProjectReference Include="..\PlanningPoker.UnitOfWork\PlanningPoker.UnitOfWork.csproj" />
   </ItemGroup>
 
 </Project>

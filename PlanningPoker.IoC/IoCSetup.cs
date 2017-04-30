@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using PlanningPoker.DataAccess;
 using PlanningPoker.DataAccess.Entities;
 using PlanningPoker.IoC.DependencyInjection;
+using PlanningPoker.UnitOfWork;
 using System;
 
 namespace PlanningPoker.IoC
@@ -26,6 +27,8 @@ namespace PlanningPoker.IoC
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<PlanningPokerDbContext, int>()
                 .AddDefaultTokenProviders();
+
+            services.AddUnitOfWork<PlanningPokerDbContext>();
 
             //IHttpContextAccessor may already be registered by AspNet.Identity
             //https://github.com/aspnet/Hosting/issues/793
