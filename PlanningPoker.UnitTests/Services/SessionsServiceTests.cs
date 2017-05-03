@@ -66,62 +66,14 @@ namespace PlanningPoker.UnitTests.Services
 
             #endregion
         }
-
+        
         [Fact]
-        public void GetUserSessions_Should_MarkSessionAsUnfinished_When_SessionHasUnfinishedGame()
+        public void GetUserSessions_Should_ReturnUserFinishedSessions_When_QueryingFinishedSessions()
         {
             #region Arrange
 
-            //arrange a session with one unfinished game - the other properties are irrelevant
-            Session sessionEntity = new Session()
-            {
-                Games = new List<Game>()
-                {
-                    new Game() { FinalEstimate = null }
-                },
-                DateCreated = DateTime.UtcNow,
-                EstimationUnit = EstimationUnit.ManHour.ToString(),
-                Id = 1,
-                Moderator = new User()
-                {
-                    Id = 1,
-                    Email = "test@test.com",
-                    FirstName = "John",
-                    LastName = "Doe"
-                },
-                ModeratorId = 1,
-                Title = "Test session 1"
-            };
-
-            Mock<ISessionsRepository> sessionsRepositoryMock = new Mock<ISessionsRepository>();
-            sessionsRepositoryMock.Setup(x => x.GetUserSessions(It.IsAny<int>()))
-                                  .Returns(new List<Session>() { sessionEntity });
-
-            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _uow);
-
-            #endregion
-
-            #region Act
-
-            List<SessionWithGames> sessions = sessionsService.GetUserSessions(1);
-
-            #endregion
-
-            #region Assert
-
-            Assert.Equal(1, sessions.Count);
-            Assert.Equal(1, sessions.First().Games.Count);
-            Assert.False(sessions.First().IsFinished);
-
-            #endregion
-        }
-
-        [Fact]
-        public void GetUserSessions_Should_MarkSessionAsUnfinished_When_SessionHasNoGames()
-        {
-            #region Arrange
-
-            //arrange a session with no games - the other properties are irrelevant
+            //arrange a session in which user is participating
+            int userId = 1;
             Session sessionEntity = new Session()
             {
                 Games = new List<Game>(),
@@ -130,17 +82,25 @@ namespace PlanningPoker.UnitTests.Services
                 Id = 1,
                 Moderator = new User()
                 {
-                    Id = 1,
+                    Id = userId,
                     Email = "test@test.com",
                     FirstName = "John",
                     LastName = "Doe"
                 },
-                ModeratorId = 1,
-                Title = "Test session 1"
+                ModeratorId = userId,
+                Title = "Test session 1",
+                Players = new List<SessionPlayer>()
+                {
+                    new SessionPlayer()
+                    {
+                        SessionId = 1,
+                        UserId = userId
+                    }
+                }
             };
 
             Mock<ISessionsRepository> sessionsRepositoryMock = new Mock<ISessionsRepository>();
-            sessionsRepositoryMock.Setup(x => x.GetUserSessions(It.IsAny<int>()))
+            sessionsRepositoryMock.Setup(x => x.GetUserSessions(userId, true))
                                   .Returns(new List<Session>() { sessionEntity });
 
             SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _uow);
@@ -149,11 +109,13 @@ namespace PlanningPoker.UnitTests.Services
 
             #region Act
 
-            List<SessionWithGames> sessions = sessionsService.GetUserSessions(1);
+            List<SessionWithGames> sessions = sessionsService.GetUserSessions(1, true);
 
             #endregion
 
             #region Assert
+
+            sessionsRepositoryMock.Verify(x => x.GetUserSessions(userId, true), Times.Once);
 
             Assert.Equal(1, sessions.Count);
             Assert.NotNull(sessions.First().Games);

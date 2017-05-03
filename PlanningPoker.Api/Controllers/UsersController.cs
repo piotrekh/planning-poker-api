@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using PlanningPoker.Api.Models;
 using PlanningPoker.Domain.Constants;
 using PlanningPoker.Domain.Models.Sessions;
 using PlanningPoker.Domain.Models.Users;
@@ -38,17 +39,17 @@ namespace PlanningPoker.Api.Controllers
             await _userManagerService.CreateUser(data);
         }        
 
-        [HttpGet("{userId}/Sessions")]
+        [HttpGet("{userId}/Sessions/{state}")]
         [ProducesResponseType(typeof(List<SessionWithGames>), (int)HttpStatusCode.OK)]  
         [Authorize]
-        public IActionResult GetUserSessions([FromRoute] int userId)
+        public IActionResult GetUserSessions(int userId, SessionState state)
         {
             //in current version of api, the user calling this method
             //(even administrator) can access only their own sessions
             if (userId != _userContextProvider.Id.Value)
                 return Forbid();
 
-            List<SessionWithGames> sessions = _sessionsService.GetUserSessions(userId);
+            List<SessionWithGames> sessions = _sessionsService.GetUserSessions(userId, state == SessionState.Finished);
             return Ok(sessions);
         }
     }

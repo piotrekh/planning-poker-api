@@ -22,12 +22,13 @@ namespace PlanningPoker.Repositories
             _dbContext.Sessions.Add(session);
         }
 
-        public List<Session> GetUserSessions(int userId)
+        public List<Session> GetUserSessions(int userId, bool finished)
         {
             return _dbContext.Sessions.Include(x => x.Games)
                 .Include(x => x.Moderator)
                 .Include(x => x.Players)
-                .Where(x => x.Players.Any(player => player.UserId == userId))
+                .Where(x => x.IsFinished
+                        && x.Players.Any(player => player.UserId == userId))
                 .ToList();
         }
     }

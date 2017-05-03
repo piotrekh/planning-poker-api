@@ -13,6 +13,8 @@ namespace PlanningPoker.DataAccess.Entities
 
         public string EstimationUnit { get; set; }
 
+        public bool IsFinished { get; set; }
+
         public DateTime DateCreated { get; set; }
 
 

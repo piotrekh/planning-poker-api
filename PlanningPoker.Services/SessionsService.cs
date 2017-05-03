@@ -47,9 +47,9 @@ namespace PlanningPoker.Services
             _uow.SaveChanges();
         }
 
-        public List<SessionWithGames> GetUserSessions(int userId)
+        public List<SessionWithGames> GetUserSessions(int userId, bool finished)
         {
-            List<Session> sessionEntities = _sessionsRepository.GetUserSessions(userId);
+            List<Session> sessionEntities = _sessionsRepository.GetUserSessions(userId, finished);
 
             List<SessionWithGames> sessions = new List<SessionWithGames>();
             foreach (Session sessionEntity in sessionEntities)
@@ -70,7 +70,7 @@ namespace PlanningPoker.Services
                     EstimationUnit = sessionEntity.EstimationUnit,
                     Games = games,
                     Id = sessionEntity.Id,
-                    IsFinished = games.Count > 0 && games.All(x => x.FinalEstimate.HasValue),
+                    IsFinished = sessionEntity.IsFinished,
                     Moderator = new Moderator()
                     {
                         Email = sessionEntity.Moderator.Email,

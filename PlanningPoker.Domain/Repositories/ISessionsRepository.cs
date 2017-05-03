@@ -7,6 +7,6 @@ namespace PlanningPoker.Domain.Repositories
     {
         void Create(Session session);        
 
-        List<Session> GetUserSessions(int userId);
+        List<Session> GetUserSessions(int userId, bool finished);
     }
 }
