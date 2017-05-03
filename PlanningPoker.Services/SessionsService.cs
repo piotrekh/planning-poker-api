@@ -1,4 +1,6 @@
 ﻿using PlanningPoker.DataAccess.Entities;
+using PlanningPoker.Domain.Exceptions;
+using PlanningPoker.Domain.Exceptions.ExceptionReasons;
 using PlanningPoker.Domain.Models;
 using PlanningPoker.Domain.Models.Sessions;
 using PlanningPoker.Domain.Repositories;
@@ -13,12 +15,15 @@ namespace PlanningPoker.Services
     public class SessionsService : ISessionsService
     {
         private readonly ISessionsRepository _sessionsRepository;
+        private readonly IGamesRepository _gamesRepository;
         private readonly IUnitOfWork _uow;
 
         public SessionsService(ISessionsRepository sessionsRepository,
+                               IGamesRepository gamesRepository,
                                IUnitOfWork uow)
         {
             _sessionsRepository = sessionsRepository;
+            _gamesRepository = gamesRepository;
             _uow = uow;
         }
 
@@ -73,7 +78,7 @@ namespace PlanningPoker.Services
                     Games = games,
                     Id = sessionEntity.Id,
                     IsFinished = sessionEntity.IsFinished,
-                    Moderator = new Moderator()
+                    Moderator = new Domain.Models.Users.User()
                     {
                         Email = sessionEntity.Moderator.Email,
                         FirstName = sessionEntity.Moderator.FirstName,
@@ -87,6 +92,51 @@ namespace PlanningPoker.Services
             }
 
             return sessions;
+        }
+
+        public LiveSession JoinLiveSession(int sessionId)
+        {
+            Session session = _sessionsRepository.GetSessionWithPlayers(sessionId);
+
+            if (session.IsFinished)
+                throw new ApplicationException(JoinLiveSessionExceptionReason.SessionIsFinished);
+            
+            //get the currently played game
+            Game game = _gamesRepository.GetCurrentGameWithEstimatesForSession(sessionId);
+
+            LiveSession liveSession = new LiveSession()
+            {
+                SessionId = session.Id,
+                LiveSessionId = session.LiveSessionId,
+                ModeratorId = session.ModeratorId,
+                Players = session.Players.Select(x => new Domain.Models.Users.User()
+                {
+                    Email = x.User.Email,
+                    FirstName = x.User.FirstName,
+                    Id = x.UserId,
+                    LastName = x.User.LastName
+                }).ToList()
+            };
+
+            if(game != null)
+            {
+                liveSession.CurrentGame = new Domain.Models.Games.GameWithEstimates()
+                {
+                    ExternalTaskUrl = game.ExternalTaskUrl,
+                    FinalEstimate = game.FinalEstimate,
+                    Id = game.Id,
+                    TaskName = game.TaskName
+                };
+
+                //make sure to return estimates (or their lack) for all players
+                liveSession.CurrentGame.PlayerEstimates = liveSession.Players.Select(player => new Domain.Models.Games.GameEstimate()
+                {
+                    UserId = player.Id,
+                    Estimate = game.Estimates.FirstOrDefault(estimate => estimate.UserId == player.Id)?.Estimate
+                }).ToList();                
+            }
+
+            return liveSession;
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace PlanningPoker.Domain.Enums
+﻿namespace PlanningPoker.Domain.Exceptions.ExceptionReasons
 {
     public enum BeginGameExceptionReason
     {

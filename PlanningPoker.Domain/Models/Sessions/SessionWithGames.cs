@@ -1,4 +1,5 @@
 ﻿using PlanningPoker.Domain.Models.Games;
+using PlanningPoker.Domain.Models.Users;
 using System.Collections.Generic;
 
 namespace PlanningPoker.Domain.Models.Sessions
@@ -9,7 +10,7 @@ namespace PlanningPoker.Domain.Models.Sessions
 
         public string Title { get; set; }
 
-        public Moderator Moderator { get; set; }
+        public User Moderator { get; set; }
 
         public string EstimationUnit { get; set; }
 

@@ -1,7 +1,7 @@
 ﻿using Moq;
 using PlanningPoker.DataAccess.Entities;
-using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Exceptions;
+using PlanningPoker.Domain.Exceptions.ExceptionReasons;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Services;
 using PlanningPoker.Tests.Common.Stubs.UnitOfWork;

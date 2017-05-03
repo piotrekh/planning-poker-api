@@ -1,6 +1,6 @@
 ﻿using PlanningPoker.DataAccess.Entities;
-using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Exceptions;
+using PlanningPoker.Domain.Exceptions.ExceptionReasons;
 using PlanningPoker.Domain.Models.Users;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Domain.Services;
@@ -24,11 +24,11 @@ namespace PlanningPoker.Services
         public async Task CreateUser(CreateUser data)
         {
             //check if a user with specified email already exists
-            User existingUser = await _usersRepository.FindByEmail(data.Email);
+            DataAccess.Entities.User existingUser = await _usersRepository.FindByEmail(data.Email);
             if (existingUser != null)
                 throw new ApplicationException(CreateUserExceptionReason.UserAlreadyExists);
 
-            User user = new User()
+            var user = new DataAccess.Entities.User()
             {
                 Email = data.Email,
                 FirstName = data.FirstName,

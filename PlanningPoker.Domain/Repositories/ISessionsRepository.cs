@@ -8,5 +8,7 @@ namespace PlanningPoker.Domain.Repositories
         void Create(Session session);        
 
         List<Session> GetUserSessions(int userId, bool finished);
+
+        Session GetSessionWithPlayers(int sessionId);
     }
 }

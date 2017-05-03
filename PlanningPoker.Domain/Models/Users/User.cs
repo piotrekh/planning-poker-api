@@ -1,6 +1,6 @@
-﻿namespace PlanningPoker.Domain.Models.Sessions
+﻿namespace PlanningPoker.Domain.Models.Users
 {
-    public class Moderator
+    public class User
     {
         public int Id { get; set; }
 

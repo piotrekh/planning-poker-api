@@ -5,6 +5,7 @@ using PlanningPoker.Domain.Models.Sessions;
 using PlanningPoker.Domain.Providers.Context;
 using PlanningPoker.Domain.Services;
 using PlanningPoker.Security.Attributes;
+using System;
 using System.Net;
 
 namespace PlanningPoker.Api.Controllers
@@ -41,6 +42,19 @@ namespace PlanningPoker.Api.Controllers
             int gameId = _gamesService.BeginGame(sessionId);
             var idResponse = new IdResponse() { Id = gameId };
             return Ok(idResponse);
-        }        
+        }
+
+        [HttpGet("{sessionId/live")]
+        [ProducesResponseType(typeof(LiveSession), (int)HttpStatusCode.OK)]
+        [ClaimAuthorize(Claims.CanPlayGame)]
+        public IActionResult JoinLiveSession(int sessionId)
+        {
+            LiveSession session = _sessionsService.JoinLiveSession(sessionId);
+            
+            //issue a cookie that will allow to use sticky sessions with load balancer (if any)
+            Response.Cookies.Append(CookieNames.LiveSessionId, session.LiveSessionId.ToString());
+
+            return Ok(session);
+        }
     }
 }

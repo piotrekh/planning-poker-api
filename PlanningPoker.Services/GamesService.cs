@@ -1,6 +1,6 @@
 ﻿using PlanningPoker.DataAccess.Entities;
-using PlanningPoker.Domain.Enums;
 using PlanningPoker.Domain.Exceptions;
+using PlanningPoker.Domain.Exceptions.ExceptionReasons;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Domain.Services;
 using PlanningPoker.UnitOfWork.Abstractions;

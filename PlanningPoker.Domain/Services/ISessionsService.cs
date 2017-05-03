@@ -9,6 +9,6 @@ namespace PlanningPoker.Domain.Services
 
         List<SessionWithGames> GetUserSessions(int userId, bool finished);
 
-
+        LiveSession JoinLiveSession(int sessionId);
     }
 }

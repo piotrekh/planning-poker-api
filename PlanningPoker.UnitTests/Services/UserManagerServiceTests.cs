@@ -38,10 +38,10 @@ namespace PlanningPoker.UnitTests.Services
             //a new one and adding them to a new role
             Mock<IUsersRepository> usersRepositoryMock = new Mock<IUsersRepository>();
             usersRepositoryMock.Setup(x => x.FindByEmail(It.IsAny<string>()))
-                               .ReturnsAsync((User)null);
-            usersRepositoryMock.Setup(x => x.Create(It.IsAny<User>(), It.IsAny<string>()))
+                               .ReturnsAsync((DataAccess.Entities.User)null);
+            usersRepositoryMock.Setup(x => x.Create(It.IsAny<DataAccess.Entities.User>(), It.IsAny<string>()))
                                .ReturnsAsync(true);
-            usersRepositoryMock.Setup(x => x.AddToRole(It.IsAny<User>(), It.IsAny<string>()))
+            usersRepositoryMock.Setup(x => x.AddToRole(It.IsAny<DataAccess.Entities.User>(), It.IsAny<string>()))
                                .ReturnsAsync(true);
 
             UserManagerService userManagerService = new UserManagerService(usersRepositoryMock.Object, _uow);                      
@@ -61,8 +61,8 @@ namespace PlanningPoker.UnitTests.Services
 
             //verify that methods have been called with correct parameters and correct number of times
             usersRepositoryMock.Verify(x => x.FindByEmail(userToAdd.Email), Times.Once);
-            usersRepositoryMock.Verify(x => x.Create(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
-            usersRepositoryMock.Verify(x => x.AddToRole(It.IsAny<User>(), userToAdd.Role), Times.Once);
+            usersRepositoryMock.Verify(x => x.Create(It.IsAny<DataAccess.Entities.User>(), It.IsAny<string>()), Times.Once);
+            usersRepositoryMock.Verify(x => x.AddToRole(It.IsAny<DataAccess.Entities.User>(), userToAdd.Role), Times.Once);
 
             #endregion
         }

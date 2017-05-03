@@ -41,7 +41,7 @@ namespace PlanningPoker.UnitTests.Services
             sessionsRepositoryMock.Setup(x => x.Create(It.IsAny<Session>()))
                                   .Callback<Session>(session => addedSessionEntity = session);
 
-            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _uow);
+            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, null, _uow);
 
             #endregion
 
@@ -80,7 +80,7 @@ namespace PlanningPoker.UnitTests.Services
                 DateCreated = DateTime.UtcNow,
                 EstimationUnit = EstimationUnit.ManHour.ToString(),
                 Id = 1,
-                Moderator = new User()
+                Moderator = new DataAccess.Entities.User()
                 {
                     Id = userId,
                     Email = "test@test.com",
@@ -105,7 +105,7 @@ namespace PlanningPoker.UnitTests.Services
             sessionsRepositoryMock.Setup(x => x.GetUserSessions(userId, true))
                                   .Returns(new List<Session>() { sessionEntity });
 
-            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, _uow);
+            SessionsService sessionsService = new SessionsService(sessionsRepositoryMock.Object, null, _uow);
 
             #endregion
 

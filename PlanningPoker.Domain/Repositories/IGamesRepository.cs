@@ -7,5 +7,7 @@ namespace PlanningPoker.Domain.Repositories
         void Create(Game game);
 
         bool HasUnfinishedGameWithSessionId(int sessionId);
+
+        Game GetCurrentGameWithEstimatesForSession(int sessionId);
     }
 }
