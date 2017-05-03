@@ -1,5 +1,7 @@
 ﻿using Moq;
 using PlanningPoker.DataAccess.Entities;
+using PlanningPoker.Domain.Enums;
+using PlanningPoker.Domain.Exceptions;
 using PlanningPoker.Domain.Repositories;
 using PlanningPoker.Services;
 using PlanningPoker.Tests.Common.Stubs.UnitOfWork;
@@ -46,6 +48,43 @@ namespace PlanningPoker.UnitTests.Services
             Assert.Equal(expectedGameId, actualGameId);
             gamesRepositoryMock.Verify(x => x.HasUnfinishedGameWithSessionId(sessionId), Times.Once);
             gamesRepositoryMock.Verify(x => x.Create(It.IsAny<Game>()), Times.Once);
+
+            #endregion
+        }
+
+        [Fact]
+        public void BeginGame_Should_ThrowException_When_SessionHasUnfinishedGame()
+        {
+            #region Arrange
+
+            int sessionId = 1;
+
+            Mock<IGamesRepository> gamesRepositoryMock = new Mock<IGamesRepository>();
+            gamesRepositoryMock.Setup(x => x.HasUnfinishedGameWithSessionId(sessionId))
+                               .Returns(true);
+
+            GamesService gamesService = new GamesService(gamesRepositoryMock.Object, _uow);
+
+            #endregion
+
+            #region Act
+            
+            var exception = Record.Exception(() => gamesService.BeginGame(sessionId));
+            var applicationException = exception as ApplicationException;
+
+            #endregion
+
+            #region Assert
+
+            //check if an exception has been thrown 
+            Assert.NotNull(exception);
+            //check if the exception thrown is of appropriate type
+            Assert.NotNull(applicationException);
+            //check the reason of the exception            
+            Assert.Equal(BeginGameExceptionReason.UnfinishedGameExists, (BeginGameExceptionReason)applicationException.Reason);
+            
+            gamesRepositoryMock.Verify(x => x.HasUnfinishedGameWithSessionId(sessionId), Times.Once);
+            gamesRepositoryMock.Verify(x => x.Create(It.IsAny<Game>()), Times.Never);
 
             #endregion
         }
