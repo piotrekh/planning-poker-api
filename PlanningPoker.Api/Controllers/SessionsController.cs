@@ -41,6 +41,6 @@ namespace PlanningPoker.Api.Controllers
             int gameId = _gamesService.BeginGame(sessionId);
             var idResponse = new IdResponse() { Id = gameId };
             return Ok(idResponse);
-        }
+        }        
     }
 }

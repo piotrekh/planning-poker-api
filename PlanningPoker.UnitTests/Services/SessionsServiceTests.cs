@@ -96,7 +96,9 @@ namespace PlanningPoker.UnitTests.Services
                         SessionId = 1,
                         UserId = userId
                     }
-                }
+                },
+                IsFinished = false,
+                LiveSessionId = Guid.NewGuid()
             };
 
             Mock<ISessionsRepository> sessionsRepositoryMock = new Mock<ISessionsRepository>();

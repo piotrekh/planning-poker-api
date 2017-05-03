@@ -39,7 +39,9 @@ namespace PlanningPoker.Services
                 EstimationUnit = session.EstimationUnit.ToString(),
                 ModeratorId = userId,
                 Title = session.Title,
-                Players = players
+                Players = players,
+                IsFinished = false,
+                LiveSessionId = Guid.NewGuid()
             };
 
             _sessionsRepository.Create(sessionEntity);

@@ -15,6 +15,11 @@ namespace PlanningPoker.DataAccess.Entities
 
         public bool IsFinished { get; set; }
 
+        /// <summary>
+        /// This id can be used for sticky sessions in load balancer
+        /// </summary>
+        public Guid LiveSessionId { get; set; }
+
         public DateTime DateCreated { get; set; }
 
 

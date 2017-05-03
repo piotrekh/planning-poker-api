@@ -8,5 +8,7 @@ namespace PlanningPoker.Domain.Services
         void CreateSession(int userId, CreateSession session);
 
         List<SessionWithGames> GetUserSessions(int userId, bool finished);
+
+
     }
 }
